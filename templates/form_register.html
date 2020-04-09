@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+
+{% block main %}
+
+    <div class="creat_account">
+
+        <p class="notregistered">Not registered yet? Create your account!</p>
+
+        <hr> 
+        <form  method="POST" action="{{ url_for('info') }}"
+            onsubmit="return confirm('Your account will be created in a few moments!?')">
+
+            <input class="account" type="text" placeholder="Your name" name="name" required>
+
+            <input class="account" type="text" placeholder="Your Email" name="email" required>
+
+            <input class="account" type="password" placeholder="Your Password" name="psw" required>
+
+            <input class="account" type="password" placeholder="Repeat Password" name="psw-repeat" required>
+
+
+            <button type="submit" class="btn btn-warning">Register your account!</button>
+
+        </form>
+
+        {% if passwordErreur %}
+            <p> Your passwords don't coincide!</p>
+        {% endif %}
+        <hr>
+    </div>
+
+
+{% endblock %}

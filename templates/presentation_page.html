@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+
+
+{% block main %}
+
+<div class="row">
+    <article class="col-6">
+        <p class="welcome">Welcome!</p>
+        <p class="presentation"><br>
+            <br>
+            Here our mission is to offer you a site for readers <br>
+            where you can make recommendations, <br>
+            rate and share your bookshelves.<br>
+        </p>
+
+        <p class="endpresentation">
+            Go read! Go free yourself!
+        </p>
+    </article>
+
+    <div class="col-6"> 
+
+        <p class="mt-5">Not registered yet? Create your account!</p>
+
+        <hr class="mb-3">  
+        
+        <form class="d-flex flex-column bd-highlight mb-5 w-50 mx-auto"  method="POST" action="{{ url_for('newAccountInfo') }}"
+            onsubmit="return confirm('Your account will be created in a few moments!?')">
+
+            <input class="mb-3" type="text" placeholder="Your name" name="name" required> 
+
+            <input class="mb-3" type="text" placeholder="Your Email" name="email" required>
+
+            <input class="mb-3" type="password" placeholder="Your Password" name="psw" required>
+
+            <input class="mb-3" type="password" placeholder="Repeat Password" name="psw-repeat" required>
+            {% if messageError %} 
+            <div class="badge badge-pill badge-danger">{{messageError}}</div>
+            {% endif %}
+
+            <button type="submit" class="btn btn-outline-primary text-nowrap mt-5">Register your account!</button>
+
+        
+        </form>
+
+        <hr>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
