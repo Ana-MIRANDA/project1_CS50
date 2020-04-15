@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<h5 class="text-center mt-3 mb-5 ">Search for Books</h5>
+
+
+    <form method="POST" action="{{ url_for('getBooks')}}" name="infosearch">
+
+        <div class="search_box input-group-prepend mb-3">
+
+            <select class="ml-auto  btn btn-outline-primary" name="searchFor" id="search-select" aria-haspopup="true"
+                aria-expanded="false">Search Books For</button>
+                <option value="all">Search Books For</option>
+                <option value="isbn">ISBN</option>
+                <option value="title">Title</option>
+                <option value="author">Author</option>
+            </select>
+            <!--Da-se um name aos dois para que o html possa mandar alguma coisa e ao fazer um teste, na consola em network pode ver-se k deu searchFor = all e pesquisa = teste go-->
+            <input type="text" class="w-50 form-control" name="pesquisa" aria-label="Text input">
+            <button type="submit" class="mr-auto btn btn-outline-primary">Go!</button>
+        </div>
+    </form>
+
+    <div class="text-center mt-3 mb-5 ">
+        {% if messageError %} <!--if user clics go without writting something-->
+            <div class="badge badge-pill badge-danger">{{messageError}}</div>
+        {% endif %}
+    </div>
+
+    {% if getb %} <!--So the table appears only if a research is made-->
+        <table class="mt-5 table table-hover table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ISNB</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Year</th>
+                </tr>
+            </thead>
+    
+            <tbody>
+                {% for livro in getb %}
+                <!--Como se usou uma query usada em orm(models.py - classe Books) cada livro da tabela da database é considerado um objeto, logo se eu nao especifica-se o livro.id, .title, etc ele nao sabia que info me dar do objeto, da linha de cada livro;-->
+                <tr>
+                    <td><a href="{{url_for('infoBooks', idNoUrl=livro.id)}}">{{livro.isbn}}</a></td>
+                    <td><a href="{{url_for('infoBooks', idNoUrl=livro.id)}}">{{livro.title}}</a></td>
+                    <td><a href="{{url_for('infoBooks', idNoUrl=livro.id)}}">{{livro.author}}</a></td>
+                    <td><a href="{{url_for('infoBooks', idNoUrl=livro.id)}}">{{livro.year}}</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+  
+
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+<!--Too get and show the info about the selected book (title, isbn, year and author)-->
+<div class="text-center">
+    <hr class="mt-5 mb-0 w-25">
+    <h2 class="mt-0 mb-0">{{bookInfo.title}}</h2>
+    <!--bookInfo returns us an object <id,isbn,title,author,year> and we ask for its property "title"-->
+    <hr class="mt-0 w-50">
+
+    <hr class="mt-2 mb-0 w-25">
+    <p class="mt-0 mb-0"> <strong>ISBN:</strong> {{bookInfo.isbn}} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; <strong>Year:</strong> {{bookInfo.year}}</p>
+    <hr class="mt-0 w-50">
+
+    <hr class="mt-auto mb-0 w-25">
+    <h5 class="mt-0 mb-0">{{bookInfo.author}} </h5>
+    <hr class="mt-0 mb-5 w-50">
+
+    <hr class="mt-auto mb-0 w-25">
+    <h6 class="mt-0 mb-0"><strong>Give us your opinion</strong></h6>
+    <hr class="mt-0 w-50">
+</div>
+
+<!--So the user can rate and comment the book that he selected -->
+
+<p> Ratings from Goodreads</p>
+<p>Average rating: {{ratingMedia}} </p>
+<p>Number of Ratings: {{ratenumber}} </p>
+
+<form method="POST" action="{{url_for('infoBooks', idNoUrl=seleSctedBook)}}"
+    onsubmit="return confirm('Thank you for your participation!')">
+
+    <div class="submitComment mt-0 w-50 mx-auto">
+        <p> Rate this book and say something about it: </p>
+
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="rate" id="r1" value="1" required>
+            <label class="form-check-label" for="r1">
+                1
+            </label>
+        </div>
+
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="rate" id="r2" value="2">
+            <label class="form-check-label" for="r2">
+                2
+            </label>
+        </div>
+
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="rate" id="r3" value="3">
+            <label class="form-check-label" for="r3">
+                3
+            </label>
+        </div>
+
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="rate" id="r4" value="4">
+            <label class="form-check-label" for="r4">
+                4
+            </label>
+        </div>
+
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="rate" id="r5" value="5">
+            <label class="form-check-label" for="r5">
+                5
+            </label>
+        </div>
+
+        <div>
+            <textarea class="w-100 mt-3" name="commentOfUser" rows="5"
+                placeholder="Give us your opinion about this book"></textarea>
+            <button type="submit" href="#!" class="btn btn-outline-primary">Send comment!</button>
+        </div>
+
+        <!--if the user tries to submit another review = error message: a book = one user, one review -->
+        <div class="text-center mt-0 mb-5 ">
+            {% if messageError %} 
+                <div class="badge badge-pill badge-danger">{{messageError}}</div>
+            {% endif %}
+        </div>
+
+    </div>
+</form>
+
+<div class="text-center">
+    <hr class="mt-0 mb-0 w-25">
+    <h4 class="mt-0 mb-0">Reviews </h4>
+    <!--bookInfo returns us an object <id,isbn,title,author,year> and we ask for its property "title"-->
+    <hr class="mt-2 w-50">
+</div>
+
+<div class="mt-0 w-50 mx-auto">
+    {% for reviewsAndUsers in ratesAndComments %}
+    <div class="border mt-3">
+
+        <p> <strong>{{reviewsAndUsers[0]}} </strong> rated this book with  {{reviewsAndUsers[2]}} and says: </p>
+        <p> {{reviewsAndUsers[1]}} </p>
+
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

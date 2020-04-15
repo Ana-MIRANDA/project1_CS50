@@ -4,21 +4,32 @@
 {% block main %}
 
 <div class="row">
-    <article class="col-6">
-        <p class="welcome">Welcome!</p>
-        <p class="presentation"><br>
+    <article class="col-6 ">
+        <h2  class="text-center font-weight-bold mt-5 mb-5">Welcome!</h2>
+        <p class=" ml-5 mt-5 mb-5 text-justify">
             <br>
-            Here our mission is to offer you a site for readers <br>
-            where you can make recommendations, <br>
-            rate and share your bookshelves.<br>
-        </p>
+            <br>
+            
+            Here our mission is to offer you a site for readers 
+            where you can search for books, rate them and write your opinion 
+            about them.
 
-        <p class="endpresentation">
-            Go read! Go free yourself!
+            
+            <br>
+            <br>
         </p>
+        <h4 class="text-center mt-5 mb-2">
+            Go read! Go free yourself!
+        </h4>
+    
     </article>
 
+  
     <div class="col-6"> 
+        
+        {% if ups %} <!--ups is the varivable defined in route 4 - in case of error email and/or password -->
+            <div class="badge badge-pill badge-danger">{{ups}}</div>
+            {% endif %}
 
         <p class="mt-5">Not registered yet? Create your account!</p>
 
@@ -31,16 +42,22 @@
 
             <input class="mb-3" type="text" placeholder="Your Email" name="email" required>
 
+            <div class="text-center mt-0 mb-3 ">
+                {% if msgEmailExists %} 
+                <div class="mt-0 badge badge-pill badge-danger">{{msgEmailExists}}</div>
+                {% endif %}
+            </div>
+
             <input class="mb-3" type="password" placeholder="Your Password" name="psw" required>
 
             <input class="mb-3" type="password" placeholder="Repeat Password" name="psw-repeat" required>
+        
+            <!--messageError is the varivable defined in route 3 - in case password and repeatPassword don't match -->
             {% if messageError %} 
             <div class="badge badge-pill badge-danger">{{messageError}}</div>
             {% endif %}
 
             <button type="submit" class="btn btn-outline-primary text-nowrap mt-5">Register your account!</button>
-
-        
         </form>
 
         <hr>

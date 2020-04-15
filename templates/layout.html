@@ -37,24 +37,38 @@
 
         <div class="h-100 col ">
             <div class="container d-flex flex-column h-100">
-                <header class="ml-auto mr-auto mt-3 d-flex bd-highlight justify-content-around">
+                <header class="mt-3 d-flex justify-content-around">
                     <!--Logo site as href home-->
-                    <a class="h3  p-2 flex-grow-1 bd-highlight mr-5" href="{{ url_for('initial_page')}}">
+                    <a class="h3  p-2  bd-highlight mr-5" href="{{ url_for('initial_page')}}">
                         Reading is Freedom!
                     </a>
 
-                    <form method="POST" action="{{ url_for('after_loggedIn') }}" class="d-flex justify-content-around">
+                 {% if session["id_user"] %} <!--difference header to a user logged in and not yet logged in--> 
+                    <div class="mt-auto">
+
+                        <p class="mb-0 mr-3 d-inline-block"> Welcome, {{ session['id_user'][1] }}</p>  <!--little welcome message with the user's name when and while logged in--> 
+
+                        <a class="btn btn-outline-primary text-nowrap" href="{{ url_for('logout')}}">Log Out</a>
+
+                        <a class="btn btn-outline-primary text-nowrap" href="{{ url_for('getBooks')}}">Search Books</a>
+
+                    </div>
+                {% else %} 
+                    <!--form log in -->
+                    <form method="POST" action="{{ url_for('login_verify')}}" class="d-flex justify-content-around">
                         <div class="d-flex align-items-center">
-                            <!--Botaoo log in-->
+                            
                             <input class="form-control" type="email" placeholder="Enter your email"
                                 id="example-email-input" name="userEmail">
                             <input class="form-control" type="password" placeholder="Your password"
                                 id="example-password-input" name="userPassword">
 
-                            <button href="{{ url_for('after_loggedIn')}}" type="submit"
-                                class="btn btn-outline-primary text-nowrap">Log in </button>
+                            <!--button log in-->
+                            <button type="submit" class="btn btn-outline-primary text-nowrap">Log in </button>
                         </div>
                     </form>
+                {% endif %}
+
                 </header>
 
                 <div class="flex-grow-1 ">
