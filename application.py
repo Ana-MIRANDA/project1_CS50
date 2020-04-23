@@ -59,9 +59,16 @@ def newAccountInfo():
     getUserEmail = request.form.get("email")
     getUserPassword = request.form.get("psw")
     getUserRepeatPassword = request.form.get("psw-repeat")
+  
+    #verify if the password matchs with reapeat password
+    if (getUserRepeatPassword == getUserPassword):
+         return redirect(url_for('searchBooks'))
+    else:
+        return render_template("presentation_page.html", messageError="You didn't repeat the right password!")
 
     sameEmail = db.execute("SELECT users.email FROM users WHERE users.email = :email",{"email": getUserEmail}).fetchone()
-
+   
+   #verify if the email already exists
     if sameEmail == None: 
         db.execute("INSERT INTO users (name, email, password) VALUES (:n, :e, :p)",{"n": getUserName, "e": getUserEmail, "p": getUserPassword})
         db.commit()
@@ -72,16 +79,13 @@ def newAccountInfo():
     else: 
         return render_template("presentation_page.html", msgEmailExists="That email account already exists!")
 
-    #verify if the password matchs with reapeat password
-    if (getUserRepeatPassword == getUserPassword ):
-         return redirect(url_for('searchBooks'))
-    else:
-        return render_template("presentation_page.html", messageError="You didn't repeat the right password!")
+   
     
                                                                    #Route 4 - log in and verify if passwrd matches
 @app.route("/login", methods=['POST'])
 def login_verify(): 
     #get info from form login
+
     userEmailLogin = request.form.get("userEmail")
     userPassLogin = request.form.get("userPassword")
     queryvalues = {"e": userEmailLogin, "p": userPassLogin}
@@ -95,6 +99,7 @@ def login_verify():
     else:
         sessions(usersAre[0]) # invocation of function sessions with id_user as parameter
         return redirect(url_for('searchBooks'))
+
 
                                                                    # Sessions 
     #After log the users id will be stored in sessions
@@ -147,3 +152,21 @@ def userComments(idbook):
         return redirect(url_for('infoBooks', idNoUrl=idbook))
     else:
         return redirect(url_for('infoBooks', idNoUrl=idbook, messageError="You've already submitted your review for this book!")) 
+
+                                                                    #Route 7 -/api/<isbn> route - search for isbn with GET  
+                                                     #return an bject with:  title, author, publication date, ISBN number, review count, and average score.  
+    
+@app.route("/api/<isbn>", methods=['GET'])
+def api(isbn):
+    allFromIsbnBook = db.execute("SELECT * FROM books WHERE books.isbn = :i",{"i": isbn}).fetchone() 
+   
+    book_id= allFromIsbnBook[0] 
+    ratesByIsbn = db.execute("SELECT COUNT(rate) FROM comments WHERE book_id = :i GROUP BY book_id",{"i": book_id}).fetchone() 
+    
+    averageByIsbn = db.execute("SELECT AVG(rate) FROM comments WHERE book_id = :i GROUP BY book_id",{"i": book_id}).fetchone()
+  
+    allIsbnSearch = {"title":allFromIsbnBook[2] , "author": allFromIsbnBook[3] ,"year": allFromIsbnBook[4] ,"isbn": allFromIsbnBook[1], "review_count":ratesByIsbn[0], "average_score":str(averageByIsbn[0])}   
+    
+    return allIsbnSearch
+
+   

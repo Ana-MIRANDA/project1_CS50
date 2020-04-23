@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="h-100">
+<html lang="en" class="min-vh-100" style="overflow-y:scroll; margin-right: 1em; margin-bottom: 0em;">
 
 <head>
     <meta charset="UTF-8">
@@ -29,58 +29,60 @@
     <title>Reading is Freedom</title>
 </head>
 
-<body class="h-100">
+<body class="min-vh-100">
 
-    <div class=" h-100 row">
+    <div class=" min-vh-100 row">
 
-        <div class="h-100 col-1 bg-dark"></div>
+        <div class="col-1 bg-dark"></div>
 
-        <div class="h-100 col ">
-            <div class="container d-flex flex-column h-100">
-                <header class="mt-3 d-flex justify-content-around">
-                    <!--Logo site as href home-->
-                    <a class="h3  p-2  bd-highlight mr-5" href="{{ url_for('initial_page')}}">
-                        Reading is Freedom!
-                    </a>
+        <div class="col container d-flex flex-column">
 
-                 {% if session["id_user"] %} <!--difference header to a user logged in and not yet logged in--> 
-                    <div class="mt-auto">
+            <header class="mt-3 d-flex justify-content-around">
+                <!--Logo site as href home-->
+                <a class="h3  p-2  bd-highlight mr-5" style="font-size:30px" href="{{ url_for('initial_page')}}">
+                    Reading is Freedom!
+                </a>
 
-                        <p class="mb-0 mr-3 d-inline-block"> Welcome, {{ session['id_user'][1] }}</p>  <!--little welcome message with the user's name when and while logged in--> 
+                {% if session["id_user"] %}
+                <!--difference header to a user logged in and not yet logged in-->
+                <div class="mt-auto">
 
-                        <a class="btn btn-outline-primary text-nowrap" href="{{ url_for('logout')}}">Log Out</a>
+                    <p class="mb-0 mr-3 d-inline-block" style="font-size:20px"> Welcome, {{ session['id_user'][1] }}</p>
+                    <!--little welcome message with the user's name when and while logged in-->
 
-                        <a class="btn btn-outline-primary text-nowrap" href="{{ url_for('getBooks')}}">Search Books</a>
+                    <a class="btn btn-outline-primary text-nowrap" href="{{ url_for('logout')}}">Log Out</a>
 
+                    <a class="btn btn-outline-primary text-nowrap" href="{{ url_for('getBooks')}}">Search Books</a>
+
+                </div>
+                {% else %}
+                <!--form log in -->
+                <form method="POST" action="{{ url_for('login_verify')}}" class="d-flex justify-content-around">
+                    <div class="d-flex align-items-center">
+
+                        <input class="form-control" type="email" placeholder="Enter your email" id="example-email-input"
+                            name="userEmail">
+                        <input class="form-control" type="password" placeholder="Your password"
+                            id="example-password-input" name="userPassword">
+
+                        <!--button log in-->
+                        <button type="submit" class="btn btn-outline-primary text-nowrap">Log in </button>
                     </div>
-                {% else %} 
-                    <!--form log in -->
-                    <form method="POST" action="{{ url_for('login_verify')}}" class="d-flex justify-content-around">
-                        <div class="d-flex align-items-center">
-                            
-                            <input class="form-control" type="email" placeholder="Enter your email"
-                                id="example-email-input" name="userEmail">
-                            <input class="form-control" type="password" placeholder="Your password"
-                                id="example-password-input" name="userPassword">
-
-                            <!--button log in-->
-                            <button type="submit" class="btn btn-outline-primary text-nowrap">Log in </button>
-                        </div>
-                    </form>
+                </form>
                 {% endif %}
 
-                </header>
+            </header>
 
-                <div class="flex-grow-1 ">
-                    {% block main %}
-                    {% endblock %}
-                </div>
-
-                <footer>
-                    <hr>
-                    CS50 - Project 1 - Ana_Miranda
-                </footer>
+            <div class="flex-grow-1 ">
+                {% block main %}
+                {% endblock %}
             </div>
+
+            <footer>
+                <hr>
+                <p class="text-center">CS50 - Project 1 - Ana_Miranda</p>
+            </footer>
+
         </div>
 
     </div>

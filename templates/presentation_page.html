@@ -3,16 +3,17 @@
 
 {% block main %}
 
-<div class="row">
-    <article class="col-6 ">
-        <h2  class="text-center font-weight-bold mt-5 mb-5">Welcome!</h2>
-        <p class=" ml-5 mt-5 mb-5 text-justify">
-            <br>
-            <br>
+<div class="row ">
+    <article class="col-6" >
+        <h2  class="text-center font-weight-bold mt-5 mb-5 pt-5">Welcome!</h2>
+        <p class="text-justiify">
             
-            Here our mission is to offer you a site for readers 
+            <p class="mt-5 pt-3 pl-3" style="font-size:20px">Here our mission is to offer you a site for readers 
             where you can search for books, rate them and write your opinion 
-            about them.
+            about them.</p>
+           
+            <p class="pl-3" style="font-size:20px" >In additional you can also receive average rating and number of ratings information from Goodreads 
+            about the work that you're searching for. </p>
 
             
             <br>
@@ -31,9 +32,9 @@
             <div class="badge badge-pill badge-danger">{{ups}}</div>
             {% endif %}
 
-        <p class="mt-5">Not registered yet? Create your account!</p>
+        <p class="mt-5 font-weight-bold pt-5" style="font-size:25px">Not registered yet? Create your account!</p>
 
-        <hr class="mb-3">  
+        <hr class="mb-5">  
         
         <form class="d-flex flex-column bd-highlight mb-5 w-50 mx-auto"  method="POST" action="{{ url_for('newAccountInfo') }}"
             onsubmit="return confirm('Your account will be created in a few moments!?')">
